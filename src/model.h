@@ -7,8 +7,7 @@
 #include <iostream>
 
 #include "view.h"
-
-const std::string PATH_TO_CONFIGS = "src/res/";
+#include "sextant_roller_constants.h"
 
 namespace SextantRoller
 {
