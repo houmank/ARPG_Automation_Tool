@@ -253,6 +253,26 @@ namespace CV
         return template_match(std::move(coords), std::move(template_og));
     }
 
+    std::vector<cv::Point> getEachVoidstoneCenterPixel(const template_match& voidstones)
+    {
+        // this whole function can probably be compile time computed
+        std::vector<cv::Point> centerPixels;
+        centerPixels.reserve(4);
+        constexpr int voidstoneRatiosSize = 4;
+        constexpr auto voidstoneRatios = [[PURPLE_VOIDSTONE_RELATIVE_X_RATIO, PURPLE_VOIDSTONE_RELATIVE_Y_RATIO],
+                                            [CYAN_VOIDSTONE_RELATIVE_X_RATIO, CYAN_VOIDSTONE_RELATIVE_Y_RATIO],[GREEN_VOIDSTONE_RELATIVE_X_RATIO,GREEN_VOIDSTONE_RELATIVE_Y_RATIO], [RED_VOIDSTONE_RELATIVE_X_RATIO,RED_VOIDSTONE_RELATIVE_Y_RATIO]
+                                            ];
+
+        for(int i = 0; i < voidstoneRatiosSize; i++)
+        {
+            cv::Point p;
+            p.x = voidstoneRatios[i][0] * voidstones.m_TemplateImg.rows;
+            p.y = voidstoneRatios[i][1] * voidstones.m_TemplateImg.cols;
+            centerPixels.emplace_back(std::move(p));
+        }
+        return centerPixels;
+    }
+
     bool CheckAtlas(cv::Mat& screenshot)
     {
         cv::Mat atlas_badge = cv::imread(PATH_TO_IMGS + "atlas_badge.png", cv::IMREAD_COLOR);

@@ -24,6 +24,7 @@ namespace SextantRoller
         cv::Mat bitmapToMat(HWND winHandle);
         template_match getInvItems(const std::string& template_name, const cv::Mat& screenshot, double threshold, bool useNMS = false);
         template_match getVoidstones(const std::string& template_name, const cv::Mat& screenshot);
+        std::vector<cv::Point> getEachVoidstoneCenterPixel(const template_match& voidstones);
         bool CheckAtlas(cv::Mat& screenshot);
         void drawRectOverMatches(cv::Mat& inImg, const template_match& matches, const cv::Scalar& color, int thickness);
         double getSimilarity(const cv::Mat& A, const cv::Mat& B);
