@@ -206,7 +206,7 @@ namespace CV
         // Search for template in inventory
         cv::Mat template_og = cv::imread(PATH_TO_IMGS + template_name, cv::IMREAD_COLOR);
         cv::Mat template_img, ss_img;
-        cv::imshow("0", template_og);
+
         // crop voidstones
         int voidstone_x = screenshot.cols * VOIDSTONE_LEFT_X_RATIO;
         int voidstone_y = screenshot.rows * VOIDSTONE_TOP_Y_RATIO;
@@ -226,11 +226,6 @@ namespace CV
         
         // convert template to 8UC4 since bitmap screenshot is 8UC4
         cv::cvtColor(template_og, template_img, cv::COLOR_BGR2BGRA);
-        
-        cv::imshow("1", ss_img);
-        cv::imshow("2", template_img);
-        cv::waitKey(0);
-        cv::destroyAllWindows();
 
         cv::Mat res_32f(ss_img.rows - template_img.rows + 1, ss_img.cols - template_img.cols + 1, CV_32FC1); 
         cv::matchTemplate(ss_img, template_img, res_32f, cv::TM_CCOEFF_NORMED);
