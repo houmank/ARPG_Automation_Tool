@@ -83,18 +83,17 @@ namespace SextantRoller
         Input::InputHandler::sendKeyInput('i');
             
         // template match inventory items
-        CV::template_match matchesEmpty = CV::getInvItems("empty_inv_cell.png", screenshot, 0.90);
-        CV::template_match matchesCompass = CV::getInvItems("compass.png", screenshot, 0.90);
-        CV::template_match matchesSextant = CV::getInvItems("awakened_sextant.png", screenshot, 0.90);
+        CV::template_match matchesEmpty = CV::getInvItems("empty_inv_cell.png", screenshot, 1);
+        CV::template_match matchesCompass = CV::getInvItems("compass.png", screenshot, 1);
+        CV::template_match matchesSextant = CV::getInvItems("awakened_sextant.png", screenshot, 1);
+        
 
-        //CV::drawRectOverMatches(screenshot, matchesSextant, CV_RGB(0, 255, 0), 2);
-        //CV::drawRectOverMatches(screenshot, matchesEmpty, CV_RGB(0, 0, 255), 2);
-        //CV::drawRectOverMatches(screenshot, matchesCompass, CV_RGB(255, 255, 0), 2);
+        CV::drawRectOverMatches(screenshot, matchesSextant, CV_RGB(0, 255, 0), 2);
+        CV::drawRectOverMatches(screenshot, matchesEmpty, CV_RGB(0, 150, 255), 2);
+        CV::drawRectOverMatches(screenshot, matchesCompass, CV_RGB(255, 0, 0), 2);
 
-        std::cout << "NUM SEXTANTS: " << matchesSextant.m_Coords.size() << '\n';
-
-        //cv::imshow("output", screenshot);
-        //cv::waitKey(0);
+        cv::imshow("output", screenshot);
+        cv::waitKey(0);
     }
 
     void Model::addView(View *view) {

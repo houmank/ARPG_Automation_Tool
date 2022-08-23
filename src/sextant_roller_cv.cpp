@@ -1,7 +1,7 @@
 #include "sextant_roller_cv.h"
 
 // Constants
-static const std::string PATH_TO_IMGS = "../../img/";
+static const std::string PATH_TO_IMGS = "img/";
 static constexpr int DEFAULT_RESOLUTION_X = 1920;
 static constexpr int DEFAULT_RESOLUTION_Y = 1080;
 static constexpr double INV_TOP_LEFT_X_RATIO = 0.6508;
@@ -133,7 +133,9 @@ namespace CV
         return matrix;
     }
 
-    template_match getInvItems(const std::string& template_name, cv::Mat& screenshot, double threshold)
+    // NMS Flag will determine if non maximum suppression (NMS) or adaptive thresholding is used when cleaning up
+    // noise
+    template_match getInvItems(const std::string& template_name, cv::Mat& screenshot, double threshold, bool useNMS)
     {
         std::vector<cv::Point> coords;
 
@@ -166,24 +168,37 @@ namespace CV
         cv::Mat res_32f(ss_img.rows - template_img.rows + 1, ss_img.cols - template_img.cols + 1, CV_32FC1); 
         cv::matchTemplate(ss_img, template_img, res_32f, cv::TM_CCOEFF_NORMED);
 
+        // attempt to minimize false positives
         cv::Mat res;
+        cv::Mat mask_local_maxima;
+        cv::Mat res_dilated;
+        int sextant_odd_size;
         res_32f.convertTo(res, CV_8U, 255.0);
     
-        // yoinked from https://stackoverflow.com/questions/23180630/using-opencv-matchtemplate-for-blister-pack-inspection
-        int sextant_odd_size = ((template_img.cols + template_img.rows) / 4) * 2 + 1; //force size to be odd
-        adaptiveThreshold(res, res, 255, cv::ADAPTIVE_THRESH_MEAN_C, cv::THRESH_BINARY, sextant_odd_size, -128); 
-        
+        // yoinked from https://stackoverflow.com/a/23183388
+        if(!useNMS){
+            sextant_odd_size = ((template_img.cols + template_img.rows) / 4) * 2 + 1; //force size to be odd
+            adaptiveThreshold(res, res, 255, cv::ADAPTIVE_THRESH_MEAN_C, cv::THRESH_BINARY, sextant_odd_size, -128); 
+        }
+        else
+        {
+            cv::dilate(res_32f, res_dilated, cv::getStructuringElement(cv::MORPH_RECT, cv::Size(3,3)));
+            cv::compare(res_32f, res_dilated, mask_local_maxima, cv::CMP_GE);
+            res_32f.setTo((0), mask_local_maxima);
+        }
+
         while(true)
         {
             // draw rectangles
+            cv::Mat& finalRes = (useNMS) ? res_32f : res;
             double minVal, maxVal;
             cv::Point minLoc, maxLoc;
-            cv::minMaxLoc(res, &minVal, &maxVal, &minLoc, &maxLoc);
+            cv::minMaxLoc(finalRes, &minVal, &maxVal, &minLoc, &maxLoc);
 
             if(maxVal >= threshold)
             {
                 cv::Point newLoc(maxLoc.x + inv_x, maxLoc.y + inv_y);
-                cv::floodFill(res, maxLoc, 0); //mark drawn blob
+                cv::floodFill(finalRes, maxLoc, 0); //mark drawn blob
                 coords.push_back(std::move(newLoc));
             }
             else 

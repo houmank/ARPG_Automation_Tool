@@ -1,5 +1,6 @@
 #include "controller.h"
 #include <thread>
+#include <filesystem>
 
 namespace SextantRoller
 {
@@ -15,6 +16,7 @@ namespace SextantRoller
 
     void Controller::signalModListChange(const std::string& fp) 
     {
+        PrintDebug(std::filesystem::current_path());
         PrintDebug("[STATUS]: Loading new modlist: " + fp + '\n');
         m_Model->loadNewModifiers(fp);
     }
