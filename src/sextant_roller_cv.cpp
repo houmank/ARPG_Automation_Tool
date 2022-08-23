@@ -325,6 +325,30 @@ namespace CV
             point.y + matches.m_TemplateImg.rows), color, thickness);
     }
 
+    // https://stackoverflow.com/a/43343579
+    void drawRotatedRectOverMatches(cv::Mat& inImg, cv::Scalar color, cv::Point center, cv::Size RectSize, double rotationDegrees)
+    {
+        // Create the rotated rectangle
+        cv::RotatedRect rotatedRectangle(center, RectSize, rotationDegrees);
+
+        // We take the edges that OpenCV calculated for us
+        cv::Point2f vertices2f[4];
+        rotatedRectangle.points(vertices2f);
+
+        // Convert them so we can use them in a fillConvexPoly
+        cv::Point vertices[4];
+        for (int i = 0; i < 4; ++i)
+        {
+            vertices[i] = vertices2f[i];
+        }
+
+        // Now we can fill the rotated rectangle with our specified color
+        cv::fillConvexPoly(inImg,
+                           vertices,
+                           4,
+                           color);
+    }
+
     // https://stackoverflow.com/a/19708947
     double getSimilarity(const cv::Mat& A, const cv::Mat& B)
     {

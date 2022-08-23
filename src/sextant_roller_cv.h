@@ -27,6 +27,7 @@ namespace SextantRoller
         std::vector<cv::Point> getEachVoidstoneCenterPixel(const template_match& voidstones);
         bool CheckAtlas(cv::Mat& screenshot);
         void drawRectOverMatches(cv::Mat& inImg, const template_match& matches, const cv::Scalar& color, int thickness);
+        void drawRotatedRectOverMatches(cv::Mat& inImg, cv::Scalar color, cv::Point center, cv::Size RectSize, double rotationDegrees);
         double getSimilarity(const cv::Mat& A, const cv::Mat& B);
     }
 }
