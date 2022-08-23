@@ -258,12 +258,13 @@ namespace CV
         // this whole function can probably be compile time computed
         std::vector<cv::Point> centerPixels;
         centerPixels.reserve(4);
-        constexpr int voidstoneRatiosSize = 4;
-        constexpr auto voidstoneRatios = [[PURPLE_VOIDSTONE_RELATIVE_X_RATIO, PURPLE_VOIDSTONE_RELATIVE_Y_RATIO],
-                                            [CYAN_VOIDSTONE_RELATIVE_X_RATIO, CYAN_VOIDSTONE_RELATIVE_Y_RATIO],[GREEN_VOIDSTONE_RELATIVE_X_RATIO,GREEN_VOIDSTONE_RELATIVE_Y_RATIO], [RED_VOIDSTONE_RELATIVE_X_RATIO,RED_VOIDSTONE_RELATIVE_Y_RATIO]
-                                            ];
+        const std::array<std::array<double,2>, 4> voidstoneRatios = 
+                             {PURPLE_VOIDSTONE_RELATIVE_X_RATIO, PURPLE_VOIDSTONE_RELATIVE_Y_RATIO,
+                              CYAN_VOIDSTONE_RELATIVE_X_RATIO, CYAN_VOIDSTONE_RELATIVE_Y_RATIO,
+                              GREEN_VOIDSTONE_RELATIVE_X_RATIO, GREEN_VOIDSTONE_RELATIVE_Y_RATIO,
+                              RED_VOIDSTONE_RELATIVE_X_RATIO,RED_VOIDSTONE_RELATIVE_Y_RATIO};
 
-        for(int i = 0; i < voidstoneRatiosSize; i++)
+        for(int i = 0; i < voidstoneRatios.size(); i++)
         {
             cv::Point p;
             p.x = voidstoneRatios[i][0] * voidstones.m_TemplateImg.rows;

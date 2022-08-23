@@ -6,7 +6,7 @@
 namespace SextantRoller 
 {
     // MODEL CLASS
-
+    
     Model::Model(const std::string &fp)
         : m_View(nullptr),
           m_ModifierSet{},
@@ -106,8 +106,10 @@ namespace SextantRoller
         CV::drawRectOverMatches(screenshot, matchesSextant, CV_RGB(0, 255, 0), 2);
         CV::drawRectOverMatches(screenshot, matchesEmpty, CV_RGB(0, 150, 255), 2);
         CV::drawRectOverMatches(screenshot, matchesCompass, CV_RGB(255, 0, 0), 2);
-
         CV::drawRectOverMatches(screenshot, matchesVoidstones, CV_RGB(200, 100, 100), 2);
+        
+        // get each voidstone's center pixel location relative to template match as ratio
+        std::vector<cv::Point> voidstoneCenters = CV::getEachVoidstoneCenterPixel(matchesVoidstones);
 
         cv::imshow("output", screenshot);
         cv::waitKey(0);
