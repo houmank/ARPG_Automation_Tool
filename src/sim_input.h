@@ -11,6 +11,7 @@ namespace Input
         static void InputHandler::sendKeyInput(const char inputKey);
         static void InputHandler::clickMouse(bool leftClick);
         static void InputHandler::moveMouse(int x, int y);
+        static void InputHandler::scrollUp(int i);
         static void clickAndDrag();
     };
 }

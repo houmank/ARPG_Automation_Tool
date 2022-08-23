@@ -79,10 +79,25 @@ namespace Input
 
         POINT p; p.x = x; p.y = y;
         POINT normalized = normalizePointToScreen(p, rect);
-
+        
         mouseInput.mi.dx = normalized.x;
         mouseInput.mi.dy = normalized.y;
         SendInput(1, &mouseInput, sizeof(mouseInput));
+        std::this_thread::sleep_for(std::chrono::milliseconds(100));
+    }
+
+    // input i is how many wheel clicks to scroll up
+    void InputHandler::scrollUp(int i)
+    {
+        INPUT mouseInput;
+        setupMouseInput(mouseInput);
+
+        // how many scrolls
+        mouseInput.mi.dwFlags |= MOUSEEVENTF_WHEEL;
+        mouseInput.mi.mouseData = WHEEL_DELTA * i;
+        SendInput(1, &mouseInput, sizeof(mouseInput));
+
+        std::this_thread::sleep_for(std::chrono::milliseconds(100));
     }
 
     void InputHandler::clickAndDrag()

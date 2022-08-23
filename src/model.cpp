@@ -51,15 +51,16 @@ namespace SextantRoller
         LPCWSTR classWString = L"POEWindowClass";
         LPCWSTR windowWString = L"Path of Exile";
         HWND hWND = FindWindow(classWString, windowWString);
-
         if (hWND == NULL)
         {
             m_View->popup("Couldn't find game, Start game and try again.");
             return;
         }
+        RECT wRect;
+        GetWindowRect(hWND, &wRect);
 
         // Signal user to tab into game
-        m_View->popup("Tab into the game and press numpad 0 to start. To stop press numpad 1");
+        m_View->popup("Tab into the game and press numpad 0 to start.");
         while(!GetAsyncKeyState(VK_NUMPAD0));
 
         // Get img matrix
@@ -81,7 +82,18 @@ namespace SextantRoller
             Input::InputHandler::sendKeyInput('g');
         }
         Input::InputHandler::sendKeyInput('i');
-            
+
+        // Zoom in to atlas badge
+        int screen_x = GetSystemMetrics(SM_CXSCREEN);
+        int screen_y = GetSystemMetrics(SM_CYSCREEN);
+        int voidstone_x = wRect.left + ((double)(wRect.right - wRect.left)*VOIDSTONE_MIDDLE_X_RATIO);
+        int voidstone_y = wRect.top + ((double)(wRect.bottom - wRect.top)*VOIDSTONE_BOTTOM_Y_RATIO);
+        Input::InputHandler::moveMouse(voidstone_x, voidstone_y);
+        Input::InputHandler::scrollUp(5);
+
+        // Get new screensho w/ voidstones and inventory open
+        screenshot = CV::bitmapToMat(hWND);
+
         // template match inventory items
         CV::template_match matchesEmpty = CV::getInvItems("empty_inv_cell.png", screenshot, 1);
         CV::template_match matchesCompass = CV::getInvItems("compass.png", screenshot, 1);
