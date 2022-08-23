@@ -180,7 +180,7 @@ namespace CV
 
         while(true)
         {
-            // draw rectangles
+            // Get coords for matches
             cv::Mat& finalRes = (useNMS) ? res_32f : res;
             double minVal, maxVal;
             cv::Point minLoc, maxLoc;
@@ -194,6 +194,65 @@ namespace CV
             }
             else 
                 break;
+        }
+
+        return template_match(std::move(coords), std::move(template_og));
+    }
+
+    template_match getVoidstones(const std::string& template_name, const cv::Mat& screenshot)
+    {
+        std::vector<cv::Point> coords;
+
+        // Search for template in inventory
+        cv::Mat template_og = cv::imread(PATH_TO_IMGS + template_name, cv::IMREAD_COLOR);
+        cv::Mat template_img, ss_img;
+        cv::imshow("0", template_og);
+        // crop voidstones
+        int voidstone_x = screenshot.cols * VOIDSTONE_LEFT_X_RATIO;
+        int voidstone_y = screenshot.rows * VOIDSTONE_TOP_Y_RATIO;
+        int voidstone_width = (screenshot.cols * VOIDSTONE_RIGHT_X_RATIO) - voidstone_x;
+        int voidstone_height = (screenshot.rows * VOIDSTONE_BOTTOM_Y_RATIO) - voidstone_y;
+
+        cv::Rect voidstone_crop(voidstone_x, voidstone_y, voidstone_width, voidstone_height);
+        ss_img = (screenshot)(voidstone_crop);
+
+        //check if need to resize template
+        if(screenshot.cols != DEFAULT_RESOLUTION_X || screenshot.rows != DEFAULT_RESOLUTION_Y)
+        {
+            double x_ratio = (double)screenshot.cols / DEFAULT_RESOLUTION_X;
+            double y_ratio = (double)screenshot.rows / DEFAULT_RESOLUTION_Y;
+            cv::resize(template_og, template_og, cv::Size(), x_ratio, y_ratio);
+        }
+        
+        // convert template to 8UC4 since bitmap screenshot is 8UC4
+        cv::cvtColor(template_og, template_img, cv::COLOR_BGR2BGRA);
+        
+        cv::imshow("1", ss_img);
+        cv::imshow("2", template_img);
+        cv::waitKey(0);
+        cv::destroyAllWindows();
+
+        cv::Mat res_32f(ss_img.rows - template_img.rows + 1, ss_img.cols - template_img.cols + 1, CV_32FC1); 
+        cv::matchTemplate(ss_img, template_img, res_32f, cv::TM_CCOEFF_NORMED);
+
+        // attempt to minimize false positives
+        cv::Mat res;
+        res_32f.convertTo(res, CV_8U, 255.0);
+    
+        // yoinked from https://stackoverflow.com/a/23183388
+        int sextant_odd_size = ((template_img.cols + template_img.rows) / 4) * 2 + 1; //force size to be odd
+        adaptiveThreshold(res, res, 255, cv::ADAPTIVE_THRESH_MEAN_C, cv::THRESH_BINARY, sextant_odd_size, -128); 
+
+        // Get coords for matches
+        double minVal, maxVal;
+        cv::Point minLoc, maxLoc;
+        cv::minMaxLoc(res, &minVal, &maxVal, &minLoc, &maxLoc);
+
+        if(maxVal >= 1)
+        {
+            cv::Point newLoc(maxLoc.x + voidstone_x, maxLoc.y + voidstone_y);
+            cv::floodFill(res, maxLoc, 0); //mark drawn blob
+            coords.push_back(std::move(newLoc));
         }
 
         return template_match(std::move(coords), std::move(template_og));
