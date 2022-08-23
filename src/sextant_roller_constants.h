@@ -23,15 +23,15 @@ namespace SextantRoller
     constexpr double VOIDSTONE_RIGHT_X_RATIO = 1230.0 / DEFAULT_RESOLUTION_X;
 
     // If template voidstone image is 144 x 132 pixels
-    constexpr double PURPLE_VOIDSTONE_RELATIVE_X_RATIO = (double)(980 - 906) / 144;
-    constexpr double CYAN_VOIDSTONE_RELATIVE_X_RATIO = (double)(944 - 906) / 144; 
-    constexpr double GREEN_VOIDSTONE_RELATIVE_X_RATIO = (double)(1019 - 906) / 144; 
-    constexpr double RED_VOIDSTONE_RELATIVE_X_RATIO = (double)(980 - 906) / 144;
+    constexpr double PURPLE_VOIDSTONE_RELATIVE_X_RATIO = (double)(985 - 906) / 144;
+    constexpr double CYAN_VOIDSTONE_RELATIVE_X_RATIO = (double)(949 - 906) / 144; 
+    constexpr double GREEN_VOIDSTONE_RELATIVE_X_RATIO = (double)(1024 - 906) / 144; 
+    constexpr double RED_VOIDSTONE_RELATIVE_X_RATIO = (double)(985 - 906) / 144;
 
-    constexpr double PURPLE_VOIDSTONE_RELATIVE_Y_RATIO = (double)(838 - 805) / 132;
-    constexpr double CYAN_VOIDSTONE_RELATIVE_Y_RATIO = (double)(872 - 805) / 132; 
-    constexpr double GREEN_VOIDSTONE_RELATIVE_Y_RATIO = (double)(872 - 805) / 132; 
-    constexpr double RED_VOIDSTONE_RELATIVE_Y_RATIO = (double)(910 - 805) / 132; 
+    constexpr double PURPLE_VOIDSTONE_RELATIVE_Y_RATIO = (double)(835 - 805) / 132;
+    constexpr double CYAN_VOIDSTONE_RELATIVE_Y_RATIO = (double)(869 - 805) / 132; 
+    constexpr double GREEN_VOIDSTONE_RELATIVE_Y_RATIO = (double)(869 - 805) / 132; 
+    constexpr double RED_VOIDSTONE_RELATIVE_Y_RATIO = (double)(900 - 805) / 132;
 }
 
 #endif
