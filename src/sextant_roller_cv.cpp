@@ -126,7 +126,7 @@ namespace CV
 
     // NMS Flag will determine if non maximum suppression (NMS) or adaptive thresholding is used when cleaning up
     // noise
-    template_match getInvItems(const std::string& template_name, cv::Mat& screenshot, double threshold, bool useNMS)
+    template_match getInvItems(const std::string& template_name, const cv::Mat& screenshot, double threshold, bool useNMS)
     {
         std::vector<cv::Point> coords;
 
