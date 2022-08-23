@@ -1,6 +1,7 @@
 #include "model.h"
 #include "sextant_roller_cv.h"
 #include "sim_input.h"
+#include "sextant_roller_constants.h"
 
 namespace SextantRoller 
 {

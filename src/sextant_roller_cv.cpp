@@ -1,14 +1,5 @@
 #include "sextant_roller_cv.h"
-
-// Constants
-static const std::string PATH_TO_IMGS = "img/";
-static constexpr int DEFAULT_RESOLUTION_X = 1920;
-static constexpr int DEFAULT_RESOLUTION_Y = 1080;
-static constexpr double INV_TOP_LEFT_X_RATIO = 0.6508;
-static constexpr double INV_TOP_LEFT_Y_RATIO = 0.5270;
-static constexpr double BADGE_LEFT_X_RATIO = 670.0 / DEFAULT_RESOLUTION_X;
-static constexpr double BADGE_RIGHT_X_RATIO = 1255.0 / DEFAULT_RESOLUTION_X;
-static constexpr double BADGE_BOTTOM_Y_RATIO = 100.0 / DEFAULT_RESOLUTION_Y;
+#include "sextant_roller_constants.h"
 
 namespace SextantRoller
 {
