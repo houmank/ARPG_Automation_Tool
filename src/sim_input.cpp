@@ -165,5 +165,20 @@ namespace Input
     {
         assert(false);
     }
+
+    void InputHandler::shiftLeftClick()
+    {
+        INPUT input[3];
+        memset(input, 0, 3 * sizeof(input[0]));
+
+        input[0].type = INPUT_KEYBOARD;
+        input[1].type = INPUT_MOUSE;
+        input[0].ki.wVk = VK_LSHIFT;
+        input[1].mi.dwFlags = MOUSEEVENTF_ABSOLUTE | MOUSEEVENTF_LEFTDOWN;
+        input[2] = input[1];
+        input[2].ki.dwFlags =  MOUSEEVENTF_ABSOLUTE | MOUSEEVENTF_LEFTUP;
+        SendInput(3, input, sizeof(input[0]));
+        std::this_thread::sleep_for(std::chrono::milliseconds(100));
+    }
 }
 }
