@@ -87,6 +87,7 @@ namespace Input
         // release mouse button
         mouseInput.mi.dwFlags = defaultFlags | (mouseButtonFlag << 1);
         SendInput(1, &mouseInput, sizeof(mouseInput));
+        std::this_thread::sleep_for(std::chrono::milliseconds(100));
     }
 
     void InputHandler::moveMouse(int x, int y)
