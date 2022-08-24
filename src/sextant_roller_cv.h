@@ -4,18 +4,20 @@
 #include "opencv2/core.hpp"
 #include "opencv2/highgui.hpp"
 #include "opencv2/imgproc/imgproc.hpp"
+#include "deque"
 
 namespace SextantRoller
 {
     namespace CV
     {
+        // custom hash function for cv::Point so i can store it in unordered_set
         struct template_match
         {
         public:
-            template_match(std::vector<cv::Point> coords, cv::Mat template_img)
+            template_match(std::deque<cv::Point> coords, cv::Mat template_img)
                 : m_Coords(coords), m_TemplateImg(template_img) {}
 
-            std::vector<cv::Point> m_Coords;
+            std::deque<cv::Point> m_Coords;
             cv::Mat m_TemplateImg;
         };
 

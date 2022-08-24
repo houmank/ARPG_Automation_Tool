@@ -128,7 +128,7 @@ namespace CV
     // noise
     template_match getInvItems(const std::string& template_name, const cv::Mat& screenshot, double threshold, bool useNMS)
     {
-        std::vector<cv::Point> coords;
+        std::deque<cv::Point> coords;
 
         // Search for template in inventory
         cv::Mat template_og = cv::imread(PATH_TO_IMGS + template_name, cv::IMREAD_COLOR);
@@ -190,7 +190,7 @@ namespace CV
             {
                 cv::Point newLoc(maxLoc.x + inv_x, maxLoc.y + inv_y);
                 cv::floodFill(finalRes, maxLoc, 0); //mark drawn blob
-                coords.push_back(std::move(newLoc));
+                coords.emplace(coords.end(), std::move(newLoc));
             }
             else 
                 break;
@@ -201,7 +201,7 @@ namespace CV
 
     template_match getVoidstones(const std::string& template_name, const cv::Mat& screenshot)
     {
-        std::vector<cv::Point> coords;
+        std::deque<cv::Point> coords;
 
         // Search for template in inventory
         cv::Mat template_og = cv::imread(PATH_TO_IMGS + template_name, cv::IMREAD_COLOR);
@@ -247,7 +247,7 @@ namespace CV
         {
             cv::Point newLoc(maxLoc.x + voidstone_x, maxLoc.y + voidstone_y);
             cv::floodFill(res, maxLoc, 0); //mark drawn blob
-            coords.push_back(std::move(newLoc));
+            coords.emplace(coords.end(), std::move(newLoc));
         }
 
         return template_match(std::move(coords), std::move(template_og));
@@ -260,9 +260,9 @@ namespace CV
         centerPixels.reserve(4);
         const std::array<std::array<double,2>, 4> voidstoneRatios = 
                              {PURPLE_VOIDSTONE_RELATIVE_X_RATIO, PURPLE_VOIDSTONE_RELATIVE_Y_RATIO,
-                              CYAN_VOIDSTONE_RELATIVE_X_RATIO, CYAN_VOIDSTONE_RELATIVE_Y_RATIO,
                               GREEN_VOIDSTONE_RELATIVE_X_RATIO, GREEN_VOIDSTONE_RELATIVE_Y_RATIO,
-                              RED_VOIDSTONE_RELATIVE_X_RATIO,RED_VOIDSTONE_RELATIVE_Y_RATIO};
+                              RED_VOIDSTONE_RELATIVE_X_RATIO,RED_VOIDSTONE_RELATIVE_Y_RATIO,
+                              CYAN_VOIDSTONE_RELATIVE_X_RATIO, CYAN_VOIDSTONE_RELATIVE_Y_RATIO};
 
         for(int i = 0; i < voidstoneRatios.size(); i++)
         {
