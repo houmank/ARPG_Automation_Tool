@@ -124,6 +124,24 @@ namespace Input
         std::this_thread::sleep_for(std::chrono::milliseconds(100));
     }
 
+    void InputHandler::cntrlC()
+    {
+        INPUT input[4];
+        memset(input, 0, 4 * sizeof(input[0]));
+
+        input[0].type = INPUT_KEYBOARD;
+        input[1].type = INPUT_KEYBOARD;
+        input[0].ki.wVk = VK_LCONTROL;
+        input[1].ki.wVk = towupper('c');
+        input[2] = input[1];
+        input[3] = input[0];
+        input[2].ki.dwFlags = KEYEVENTF_KEYUP;
+        input[3].ki.dwFlags = KEYEVENTF_KEYUP;
+        SendInput(4, input, sizeof(input[0]));
+        std::this_thread::sleep_for(std::chrono::milliseconds(100));
+    }
+
+
     void InputHandler::clickAndDrag()
     {
         assert(false);
