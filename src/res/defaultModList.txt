@@ -10,20 +10,20 @@ Areas contain an additional Strongbox
 Splinters and Emblems dropped by Legion Monsters in 
 Areas are duplicated
 Delirium Reward Bars fill 100% faster in Areas
-"Unique Bosses are accompanied by a mysterious Harbinger
+Unique Bosses are accompanied by a mysterious Harbinger
 Unique Bosses drop additional Currency Shards
 Harbingers drop additional Currency Shards
 Slaying Enemies close together in Areas has a 6% chance to attract monsters from Beyond
 Beyond Portals in Areas have 25% chance to spawn an additional Beyond Demon
-Areas contain an additional Legion Encounter
-Areas contain a mirror of Delirium
-Areas contain The Sacred Grove
-Sacred Grove
-Areas contain Ritual Altars
-Jun
+Your Maps contain an additional Legion Encounter
+Your Maps contain a mirror of Delirium
+Your Maps contain The Sacred Grove
+Your Maps contain Ritual Altars
+Your Maps contain Jun
 Breaches belong to chayula
-Runic monsters
-Gilded scarab
+Your Maps contain 100% increased number of Runic Monster Markers
+The First 3 Possessed Monsters drop an additional Gilded Scarab
+Your Maps contain an additional Tormented Betrayer
 Catalysts dropped by Metamorphs in your Maps are Duplicated
 25% increased Magic Pack Size
 Your Maps contain 2 additional Strongboxes
