@@ -14,6 +14,7 @@ namespace Input
         static void InputHandler::moveMouse(int x, int y);
         static void InputHandler::scrollUp(int i);
         static void InputHandler::cntrlC();
+        static void InputHandler::cntrlShiftC();
         static void clickAndDrag();
     };
 }
