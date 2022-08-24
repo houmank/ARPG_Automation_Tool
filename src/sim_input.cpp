@@ -45,6 +45,26 @@ namespace Input
         std::this_thread::sleep_for(std::chrono::milliseconds(100));
         input.ki.dwFlags = KEYEVENTF_SCANCODE | KEYEVENTF_KEYUP;
         SendInput(1, &input, sizeof(input));
+    // if press is true, it will only send KEY_DOWN flag, else it will release
+    void InputHandler::keyReleaseOrHold(DWORD virtualKey, bool press)
+    {
+        INPUT input = {0};
+
+        input.type = INPUT_KEYBOARD;
+        input.ki.wVk = virtualKey;
+        
+        if(press)
+        {
+            input.ki.dwFlags = KEYEVENTF_SCANCODE;
+            SendInput(1, &input, sizeof(input));
+        }
+        else
+        {
+            input.ki.dwFlags = KEYEVENTF_SCANCODE | KEYEVENTF_KEYUP;
+            SendInput(1, &input, sizeof(input));
+        }
+        
+        std::this_thread::sleep_for(std::chrono::milliseconds(100));
     }
 
     void InputHandler::clickMouse(bool leftClick)
