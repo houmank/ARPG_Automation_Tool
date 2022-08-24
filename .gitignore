@@ -35,3 +35,7 @@
 
 build/
 .vscode/
+install/
+/.vs
+/CMakeSettings.json
+/error_log.txt
