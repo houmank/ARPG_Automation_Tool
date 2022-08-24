@@ -174,7 +174,7 @@ namespace CV
         else
         {
             cv::dilate(res_32f, res_dilated, cv::getStructuringElement(cv::MORPH_RECT, cv::Size(3,3)));
-            cv::compare(res_32f, res_dilated, mask_local_maxima, cv::CMP_GE);
+            cv::compare(res_32f, res_dilated, mask_local_maxima, cv::CMP_LT);
             res_32f.setTo((0), mask_local_maxima);
         }
 
