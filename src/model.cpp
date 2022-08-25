@@ -2,11 +2,68 @@
 #include "sextant_roller_cv.h"
 #include "sim_input.h"
 #include "sextant_roller_constants.h"
+#include <algorithm>
 
 namespace SextantRoller 
 {
+    std::vector<std::string> parseModsFromItemDesc(const std::string& item)
+    {
+        /* Example of item description
+        Item Class: Atlas Upgrade Items
+        Rarity: Normal
+        Omniscient Voidstone
+        --------
+        Item Level: 1
+        --------
+        Your Maps contain 25 additional Clusters of Mysterious Barrels (enchant)
+        3 uses remaining (enchant)
+        --------
+        Maps Dropped in Areas have 25% chance to be 1 tier higher
+        --------
+        The Searing Exarch spread the Word of
+        Enlightenment for countless eons without
+        ever understanding its master's message.
+        --------
+        Socket this into your Atlas to increase the Tier of all Maps.
+        */
+        std::vector<std::string> mods;
+        size_t index = std::string::npos;
+        constexpr std::string_view FIRST_IDENTIFIER = "Item Class";
+        constexpr size_t LEN_OF_FIRST_IDENTIFIER = 10;
+        constexpr size_t NUM_CATEGORY_TO_SKIP_REVERSE = 3;
+        constexpr size_t NUM_DASHES = 8;
+        constexpr size_t NUM_CHARS_PAST_DASH_TO_NEWLINE = 1;
+        constexpr size_t NUM_CHARS_REMOVED_ENCHANT = 10;
+
+        // verify it is an item description
+        if (item.substr(0, FIRST_IDENTIFIER.size()) != FIRST_IDENTIFIER) {
+            mods.emplace_back(FIRST_IDENTIFIER);
+            return mods;
+        }
+
+        for(int i = 0; i < NUM_CATEGORY_TO_SKIP_REVERSE; i++)
+        { 
+            index = item.rfind('-', index);
+            if(index == std::string::npos) return mods;
+            index -= NUM_DASHES;
+        }
+
+        size_t startMods = item.rfind('-', index) + NUM_CHARS_PAST_DASH_TO_NEWLINE;
+        size_t next = startMods + 1;
+        while(next <= index) {
+            size_t newLine = item.find('\n', next);
+            std::string mod = item.substr(next, newLine - next - NUM_CHARS_REMOVED_ENCHANT);
+            std::transform(mod.begin() , mod.end(), mod.begin(), ::tolower);
+            std::cout << "mod grabbed from clip: " << mod << '\n';
+            mods.emplace_back(mod);
+            next = newLine + 1;
+        }
+
+        return mods;
+    }
+
+
     // MODEL CLASS
-    
     Model::Model(const std::string &fp)
         : m_View(nullptr),
           m_ModifierSet{},
@@ -28,6 +85,7 @@ namespace SextantRoller
             {
                 std::string mod;
                 std::getline(file, mod);
+                std::transform(mod.begin(), mod.end(), mod.begin(), ::tolower);
                 m_ModOrder.push_back(mod);
                 m_ModifierSet.insert(std::move(mod));
             }
