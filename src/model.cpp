@@ -227,6 +227,14 @@ namespace SextantRoller
         
         // get each voidstone's center pixel location relative to template match as ratio
         std::vector<cv::Point> voidstoneCenters = CV::getEachVoidstoneCenterPixel(matchesVoidstones);
+        
+        // KILL SWITCH
+        std::thread killSwitch([]()
+        {
+            while(!(GetAsyncKeyState(VK_NUMPAD5))) std::this_thread::sleep_for(std::chrono::milliseconds(200));
+            exit(1);
+        });
+        killSwitch.detach();
 
         cv::imshow("output", screenshot);
         cv::waitKey(0);
