@@ -175,8 +175,8 @@ namespace SextantRoller
         GetWindowRect(hWND, &wRect);
 
         // Signal user to tab into game
-        m_View->popup("Tab into the game and press numpad 0 to start.");
-        while(!GetAsyncKeyState(VK_NUMPAD0));
+        m_View->popup("Tab into the game and press numpad 0 to start. Press numpad 1 to stop.");
+        while(!GetAsyncKeyState(VK_NUMPAD0)) {std::this_thread::sleep_for(std::chrono::milliseconds(250));};
 
         // Get img matrix
         cv::Mat screenshot = CV::bitmapToMat(hWND);
@@ -231,19 +231,11 @@ namespace SextantRoller
         int CURRENT_VOIDSTONE = 2;
         std::vector<cv::Point> voidstoneCenters = CV::getEachVoidstoneCenterPixel(matchesVoidstones);
         cv::Point voidstoneLoc = getVoidstoneCenterAbsolute(voidstoneCenters, matchesVoidstones, CURRENT_VOIDSTONE);
-        
-        // KILL SWITCH
-        std::thread killSwitch([]()
-        {
-            while(!(GetAsyncKeyState(VK_NUMPAD5))) std::this_thread::sleep_for(std::chrono::milliseconds(200));
-            exit(1);
-        });
-        killSwitch.detach();
 
         // loop until run out of items or user stops
         bool stopRoll = false;
         bool usedCompass;
-        while (!stopRoll && !(GetAsyncKeyState(VK_NUMPAD1) > 0))
+        while (!stopRoll && !GetAsyncKeyState(VK_NUMPAD1))
         {
             usedCompass = false;
 
