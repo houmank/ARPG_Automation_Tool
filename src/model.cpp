@@ -89,6 +89,25 @@ namespace SextantRoller
         return parseModsFromItemDesc(itemDescription);
     }
 
+    void grabObjFromInvAndClickVoidstone(const cv::Point& srcPoint, const cv::Point& destPoint, bool useShiftClick)
+    {
+        std::cout << "SRC LOC: " << srcPoint << '\n';
+        std::cout << "DEST LOC: " << destPoint << '\n';
+        Input::InputHandler::moveMouse(srcPoint.x, srcPoint.y);
+        Input::InputHandler::clickMouse(false);
+        Input::InputHandler::moveMouse(destPoint.x, destPoint.y);
+
+        if(useShiftClick) Input::InputHandler::keyReleaseOrHold(VK_SHIFT, true);
+        Input::InputHandler::clickMouse(true);
+        if(useShiftClick) Input::InputHandler::keyReleaseOrHold(VK_SHIFT, false);
+    }
+
+    cv::Point templateMatchCenter(const cv::Point& topLeft, const CV::template_match& match) {
+        cv::Point res(topLeft.x + (match.m_TemplateImg.cols / 2), 
+               topLeft.y + (match.m_TemplateImg.rows / 2));
+        return res;                                                
+    }
+
 
     // MODEL CLASS
     Model::Model(const std::string &fp)
