@@ -2,6 +2,8 @@
 #include "sextant_roller_cv.h"
 #include "sim_input.h"
 #include "sextant_roller_constants.h"
+#include "wx/clipbrd.h"
+
 #include <algorithm>
 
 namespace SextantRoller 
@@ -60,6 +62,31 @@ namespace SextantRoller
         }
 
         return mods;
+    }
+
+    std::vector<std::string> getModsFromClipboard()
+    {
+        std::string itemDescription;
+        bool copied = false;
+
+        if (wxTheClipboard->Open())
+        {
+            if (wxTheClipboard->IsSupported(wxDF_TEXT))
+            {
+                wxTextDataObject data;
+                wxTheClipboard->GetData(data);
+                itemDescription.reserve(data.GetDataSize());
+                itemDescription = data.GetText();  
+                copied = true;
+            }
+            wxTheClipboard->Close();
+            wxTheClipboard->Clear();
+        }
+
+        if(!copied) return std::vector<std::string>();
+
+        // parse mods from item description
+        return parseModsFromItemDesc(itemDescription);
     }
 
 
