@@ -207,18 +207,23 @@ namespace SextantRoller
         // Get new screensho w/ voidstones and inventory open
         screenshot = CV::bitmapToMat(hWND);
 
-        // template match inventory items
-        CV::template_match matchesEmpty = CV::getInvItems("empty_inv_cell.png", screenshot, 1);
-        CV::template_match matchesCompass = CV::getInvItems("compass.png", screenshot, 1);
+        // template match inventory items and watchones
+        // using NMS for compass to get rid of false positives when charged compasses are in inventory
+        CV::template_match matchesEmpty = CV::getInvItems("empty_inv_cell.png", screenshot,  1);
+        CV::template_match matchesCompass = CV::getInvItems("compass.png", screenshot, 0.86, true);
         CV::template_match matchesSextant = CV::getInvItems("awakened_sextant.png", screenshot, 1);
-
-        // detect watchstones
         CV::template_match matchesVoidstones = CV::getVoidstones("voidstones.png", screenshot);
 
-        CV::drawRectOverMatches(screenshot, matchesSextant, CV_RGB(0, 255, 0), 2);
-        CV::drawRectOverMatches(screenshot, matchesEmpty, CV_RGB(0, 150, 255), 2);
-        CV::drawRectOverMatches(screenshot, matchesCompass, CV_RGB(255, 0, 0), 2);
-        CV::drawRectOverMatches(screenshot, matchesVoidstones, CV_RGB(200, 100, 100), 2);
+        /*
+        CV::drawRectOverMatches(screenshot, matchesSextant, CV_RGB(255, 0, 0), 2);
+        CV::drawRectOverMatches(screenshot, matchesEmpty, CV_RGB(0, 255, 255), 1);
+        CV::drawRectOverMatches(screenshot, matchesCompass, CV_RGB(0, 0, 255), 1);
+        CV::drawRectOverMatches(screenshot, matchesVoidstones, CV_RGB(255, 200, 255), 2);
+
+        cv::imshow("testing", screenshot);
+        cv::waitKey(0);
+        exit(1);
+        */
         
         // get each voidstone's center pixel location relative to template match as ratio
         std::vector<cv::Point> voidstoneCenters = CV::getEachVoidstoneCenterPixel(matchesVoidstones);
