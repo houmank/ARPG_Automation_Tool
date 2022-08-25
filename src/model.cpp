@@ -56,7 +56,7 @@ namespace SextantRoller
             size_t newLine = item.find('\n', next);
             std::string mod = item.substr(next, newLine - next - NUM_CHARS_REMOVED_ENCHANT);
             std::transform(mod.begin() , mod.end(), mod.begin(), ::tolower);
-            std::cout << "mod grabbed from clip: " << mod << '\n';
+            PrintDebug("New modifier parsed from clipboard: " + mod + '\n');
             mods.emplace_back(mod);
             next = newLine + 1;
         }
@@ -91,8 +91,10 @@ namespace SextantRoller
 
     void grabObjFromInvAndClickVoidstone(const cv::Point& srcPoint, const cv::Point& destPoint, bool useShiftClick)
     {
-        std::cout << "SRC LOC: " << srcPoint << '\n';
-        std::cout << "DEST LOC: " << destPoint << '\n';
+        PrintDebug("Grabbing and moving object from inventory: \n");
+        PrintDebug("\tSource location: " + std::to_string(srcPoint.x) + ", " + std::to_string(srcPoint.y) + '\n');
+        PrintDebug("\tDestination location: " + std::to_string(destPoint.x) + ", " + std::to_string(destPoint.y) + '\n');
+
         Input::InputHandler::moveMouse(srcPoint.x, srcPoint.y);
         Input::InputHandler::clickMouse(false);
         Input::InputHandler::moveMouse(destPoint.x, destPoint.y);
