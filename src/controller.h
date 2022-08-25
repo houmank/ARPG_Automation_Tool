@@ -11,6 +11,7 @@ namespace SextantRoller
         Controller(Model* m);
         void startRollerThread();
         void signalModListChange(const std::string& fp);
+        void signalVoidstoneSelection(const int voidstoneIndex);
         int signalModListSize();
         std::vector<std::string>& signalGetModList();
 

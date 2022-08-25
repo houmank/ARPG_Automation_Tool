@@ -20,6 +20,12 @@ namespace SextantRoller
         PrintDebug("[STATUS]: Loading new modlist: " + fp + '\n');
         m_Model->loadNewModifiers(fp);
     }
+
+    void Controller::signalVoidstoneSelection(const int voidstoneIndex)
+    {
+        m_Model->setVoidstoneSelection(voidstoneIndex);
+    }
+
     int Controller::signalModListSize()
     {
         if(m_Model)
