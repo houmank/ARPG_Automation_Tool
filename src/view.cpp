@@ -143,16 +143,23 @@ namespace SextantRoller
 
     void View::OnInstructions(wxCommandEvent& event)
     {
-        InitDebugWindow();
-        while (true)
+
+    }
+
+    void View::OnVoidstoneChange(wxCommandEvent& event)
+    {
+        constexpr int NUM_VOIDSTONES = 4;
+        for (int i = 0; i < NUM_VOIDSTONES; ++i) 
         {
-            wxPoint pos = wxGetMousePosition();
-            std::string s = "X: " + std::to_string(pos.x) + "  Y: " + std::to_string(pos.y) + "\n";
-            PrintDebug(s);
-            Sleep(100);
+            wxMenuItem* voidstone = m_VoidstoneMenu->FindItemByPosition(i);
+            if (voidstone->GetId() == event.GetId())
+            {
+                voidstone->Check(true);
+                static_cast<Controller*>(m_Controller)->signalVoidstoneSelection(voidstone->GetId() - ID::VoidstoneChangePurple);
+            }
+            else
+                voidstone->Check(false);
         }
-        DestroyDebugWindow();
-        event.Skip();
     }
 
     void View::OnStart(wxCommandEvent &event)

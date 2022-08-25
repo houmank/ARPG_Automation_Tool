@@ -23,6 +23,7 @@ namespace SextantRoller
         void OnAbout(wxCommandEvent &event);
         void OnFileOpen(wxCommandEvent &event);
         void OnInstructions(wxCommandEvent& event);
+        void OnVoidstoneChange(wxCommandEvent& event);
         void OnStart(wxCommandEvent &event);
 
         void* m_Controller;
