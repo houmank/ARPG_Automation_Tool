@@ -46,6 +46,11 @@ namespace SextantRoller
         Bind(wxEVT_MENU, &View::OnInstructions, this, ID::Instructions);
         Bind(wxEVT_MENU, &View::OnAbout, this, wxID_ABOUT);
         Bind(wxEVT_MENU, &View::OnExit, this, wxID_EXIT);
+
+        Bind(wxEVT_MENU, &View::OnVoidstoneChange, this, ID::VoidstoneChangePurple);
+        Bind(wxEVT_MENU, &View::OnVoidstoneChange, this, ID::VoidstoneChangeGreen);
+        Bind(wxEVT_MENU, &View::OnVoidstoneChange, this, ID::VoidstoneChangeRed);
+        Bind(wxEVT_MENU, &View::OnVoidstoneChange, this, ID::VoidstoneChangeCyan);
     }
 
     void View::updateModList(std::vector<std::string>& modList) {
