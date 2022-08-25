@@ -123,7 +123,8 @@ namespace SextantRoller
     Model::Model(const std::string &fp)
         : m_View(nullptr),
           m_ModifierSet{},
-          m_ModOrder{}
+          m_ModOrder{},
+          m_VoidstoneSelection(0)
           {}
 
     Model::~Model() {}
@@ -158,6 +159,14 @@ namespace SextantRoller
     int Model::getModListSize()
     {
         return m_ModifierSet.size();
+    }
+
+    void Model::setVoidstoneSelection(const int voidstoneIndex)
+    {
+        constexpr char* stoneNames[4] = { "Purple", "Green", "Red", "Cyan" };
+        assert(voidstoneIndex >= 0 && voidstoneIndex < 4);
+        PrintDebug(std::string("New Voidstone selected: ") + stoneNames[voidstoneIndex]);
+        m_VoidstoneSelection = voidstoneIndex;
     }
 
     void Model::AttemptSextantRoll()
@@ -228,9 +237,8 @@ namespace SextantRoller
         */
         
         // get each voidstone's center pixel location relative to template match as ratio
-        int CURRENT_VOIDSTONE = 2;
         std::vector<cv::Point> voidstoneCenters = CV::getEachVoidstoneCenterPixel(matchesVoidstones);
-        cv::Point voidstoneLoc = getVoidstoneCenterAbsolute(voidstoneCenters, matchesVoidstones, CURRENT_VOIDSTONE);
+        cv::Point voidstoneLoc = getVoidstoneCenterAbsolute(voidstoneCenters, matchesVoidstones, m_VoidstoneSelection);
 
         // loop until run out of items or user stops
         bool stopRoll = false;

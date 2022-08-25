@@ -20,6 +20,7 @@ namespace SextantRoller
         void loadNewModifiers(const std::string& fp);
         std::vector<std::string>& getListOfMods();
         int getModListSize();
+        void setVoidstoneSelection(const int voidstoneIndex);
         void AttemptSextantRoll();
 
         void addView(View* view);
@@ -29,6 +30,7 @@ namespace SextantRoller
         View* m_View;
         std::unordered_set<std::string> m_ModifierSet;
         std::vector<std::string> m_ModOrder;
+        int m_VoidstoneSelection;
     };
 }
 
