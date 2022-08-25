@@ -8,6 +8,10 @@ namespace SextantRoller
         Start = 10001,
         OpenFile,
         Instructions,
+        VoidstoneChangePurple,
+        VoidstoneChangeGreen,
+        VoidstoneChangeRed,
+        VoidstoneChangeCyan,
     };
 }
 
