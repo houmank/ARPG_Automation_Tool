@@ -7,7 +7,7 @@ bool Application::OnInit()
     // create MVC
     m_Model = new SextantRoller::Model();
     m_Controller = new SextantRoller::Controller(m_Model);
-    m_View = new SextantRoller::View("Main Menu", wxDefaultPosition, wxDefaultSize);
+    m_View = new SextantRoller::View("Main Menu", wxDefaultPosition, wxSize(600, 500));
 
     // bind
     m_Model->addView(m_View);
