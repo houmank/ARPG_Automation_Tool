@@ -240,8 +240,93 @@ namespace SextantRoller
         });
         killSwitch.detach();
 
-        cv::imshow("output", screenshot);
-        cv::waitKey(0);
+        // loop until run out of items or user stops
+        bool stopRoll = false;
+        bool usedCompass;
+        while (!stopRoll && !(GetAsyncKeyState(VK_NUMPAD1) > 0))
+        {
+            usedCompass = false;
+
+            // check to see if we have sextants
+            if (matchesSextant.m_Coords.empty()) 
+            {
+                PrintDebug("Out of sextants, stopping loop.\n");
+                stopRoll = true;
+                break;
+            }
+            
+            // grab sextant location
+            cv::Point current = std::move(matchesSextant.m_Coords.front());
+            matchesSextant.m_Coords.pop_front();
+            PrintDebug("Current sextant location: " + std::to_string(current.x) + ", " + std::to_string(current.y) + '\n');
+            
+            // go to voidstone
+            cv::Point sextantLoc = templateMatchCenter(current, matchesSextant);
+            PrintDebug("Center of current sextant: " + std::to_string(sextantLoc.x) + ", " + std::to_string(sextantLoc.y) + '\n');
+            grabObjFromInvAndClickVoidstone(sextantLoc, voidstoneLoc, true); // roll
+
+
+            // clipboard copy
+            Input::InputHandler::cntrlC();
+            std::vector<std::string> mods = getModsFromClipboard();
+
+            // read modifier
+            // check to see if we are out of sextants
+            for (int i = 0; i < mods.size() - 1; i++) // dont want number of charges
+            {
+                PrintDebug("Checking modifier against modlist: " + mods[i] + '\n');
+                if (m_ModifierSet.find(mods[i]) != m_ModifierSet.end())
+                {
+                    PrintDebug("\tModifier is one we are looking to store\n");
+
+                    // grab compass and store sextant
+                    // check if have compasses to use
+                    if (matchesCompass.m_Coords.empty())
+                    {
+                        PrintDebug("Out of compasses, stop loop\n");
+                        stopRoll = true;
+                        break;
+                        // play some sound or something idk
+                    }
+ 
+                    cv::Point currentCompass = matchesCompass.m_Coords.front();
+                    matchesCompass.m_Coords.pop_front();
+                    usedCompass = true;
+
+                    cv::Point compassLoc = templateMatchCenter(currentCompass, matchesCompass);
+                    PrintDebug("Center of current compass: " + std::to_string(compassLoc.x) + ", " + std::to_string(compassLoc.y) + '\n');
+                    grabObjFromInvAndClickVoidstone(compassLoc, voidstoneLoc, true); 
+
+                    // find empty slot to return to
+                    if (matchesEmpty.m_Coords.empty())
+                    {
+                        PrintDebug("No more empty slots, stop loop\n");
+                        stopRoll = true;
+                        break;
+                        // play some sound or something idk
+                    }
+
+                    cv::Point emptyInvSlot = std::move(matchesEmpty.m_Coords.front());
+                    matchesEmpty.m_Coords.pop_front();
+
+                    cv::Point slotLoc = templateMatchCenter(emptyInvSlot, matchesEmpty);
+                    PrintDebug("Center of empty inventory slot: " + std::to_string(slotLoc.x) + ", " + std::to_string(slotLoc.y) + '\n');
+                    Input::InputHandler::moveMouse(slotLoc.x, slotLoc.y);
+                    Input::InputHandler::clickMouse(true);
+
+                    break;
+                }
+            }
+
+            // new screenshot after compass / sextant change
+            screenshot = CV::bitmapToMat(hWND);
+            matchesSextant = CV::getInvItems("awakened_sextant.png", screenshot, 1);
+            if (usedCompass) {
+                matchesCompass = CV::getInvItems("compass.png", screenshot, 0.86, true);
+                usedCompass = false;
+            }
+        } 
+        // maybe play sound and signal gui to display we are done
     }
 
     void Model::addView(View *view) {
