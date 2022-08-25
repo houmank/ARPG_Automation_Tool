@@ -23,8 +23,17 @@ namespace SextantRoller
         menuHelp->Append(ID::Instructions, "&Instructions\tCtrl-H", "How to get started.");
         menuHelp->Append(wxID_ABOUT);
 
+        m_VoidstoneMenu = new wxMenu;
+        m_VoidstoneMenu->AppendCheckItem(ID::VoidstoneChangePurple, "&Purple (top) Voidstone", "Selects the purple voidstone to be rolled.");
+        m_VoidstoneMenu->FindItemByPosition(0)->Check(true); // default selection
+        m_VoidstoneMenu->AppendCheckItem(ID::VoidstoneChangeGreen, "&Green (right) Voidstone", "Selects the green voidstone to be rolled.");
+        m_VoidstoneMenu->AppendCheckItem(ID::VoidstoneChangeRed, "&Red (bottom) Voidstone", "Selects the red voidstone to be rolled.");
+        m_VoidstoneMenu->AppendCheckItem(ID::VoidstoneChangeCyan, "&Cyan (left) Voidstone", "Selects the purple Cyan to be rolled.");
+
+
         wxMenuBar *menuBar = new wxMenuBar;
         menuBar->Append(menuFile, "&File");
+        menuBar->Append(m_VoidstoneMenu, "&Voidstone selected");
         menuBar->Append(menuHelp, "&Help");
 
         SetMenuBar(menuBar);

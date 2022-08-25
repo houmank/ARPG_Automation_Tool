@@ -27,6 +27,7 @@ namespace SextantRoller
 
         void* m_Controller;
         HwxGrid* m_StrTable;
+        wxMenu* m_VoidstoneMenu;
     };
 }
 
