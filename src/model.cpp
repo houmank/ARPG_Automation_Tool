@@ -108,6 +108,14 @@ namespace SextantRoller
         return res;                                                
     }
 
+    cv::Point getVoidstoneCenterAbsolute(const std::vector<cv::Point>& voidstoneCenters, 
+                                         const CV::template_match& match, int voidstoneIndex)
+    {
+        assert(voidstoneIndex < 4);
+        cv::Point voidstoneLoc(voidstoneCenters[voidstoneIndex].x + match.m_Coords[0].x,
+                                       voidstoneCenters[voidstoneIndex].y + match.m_Coords[0].y);
+        return voidstoneLoc;        
+    }
 
     // MODEL CLASS
     Model::Model(const std::string &fp)
