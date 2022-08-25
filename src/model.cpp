@@ -199,8 +199,8 @@ namespace SextantRoller
         // Zoom in to atlas badge
         int screen_x = GetSystemMetrics(SM_CXSCREEN);
         int screen_y = GetSystemMetrics(SM_CYSCREEN);
-        int voidstone_x = wRect.left + ((double)(wRect.right - wRect.left)*VOIDSTONE_MIDDLE_X_RATIO);
-        int voidstone_y = wRect.top + ((double)(wRect.bottom - wRect.top)*VOIDSTONE_BOTTOM_Y_RATIO);
+        int voidstone_x = wRect.left + (((double)wRect.right - wRect.left)*VOIDSTONE_MIDDLE_X_RATIO);
+        int voidstone_y = wRect.top + (((double)wRect.bottom - wRect.top)*VOIDSTONE_BOTTOM_Y_RATIO);
         Input::InputHandler::moveMouse(voidstone_x, voidstone_y);
         Input::InputHandler::scrollUp(5);
 
