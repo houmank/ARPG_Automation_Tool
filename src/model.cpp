@@ -251,6 +251,7 @@ namespace SextantRoller
             if (matchesSextant.m_Coords.empty()) 
             {
                 PrintDebug("Out of sextants, stopping loop.\n");
+                m_View->popup("Out of sextants, stopping roll.");
                 stopRoll = true;
                 break;
             }
@@ -271,7 +272,6 @@ namespace SextantRoller
             std::vector<std::string> mods = getModsFromClipboard();
 
             // read modifier
-            // check to see if we are out of sextants
             for (int i = 0; i < mods.size() - 1; i++) // dont want number of charges
             {
                 PrintDebug("Checking modifier against modlist: " + mods[i] + '\n');
@@ -284,9 +284,9 @@ namespace SextantRoller
                     if (matchesCompass.m_Coords.empty())
                     {
                         PrintDebug("Out of compasses, stop loop\n");
+                        m_View->popup("Out of compasses, stopping roll.");
                         stopRoll = true;
                         break;
-                        // play some sound or something idk
                     }
  
                     cv::Point currentCompass = matchesCompass.m_Coords.front();
@@ -301,9 +301,9 @@ namespace SextantRoller
                     if (matchesEmpty.m_Coords.empty())
                     {
                         PrintDebug("No more empty slots, stop loop\n");
+                        m_View->popup("Cant place item into inventory slot, stopping roll.");
                         stopRoll = true;
                         break;
-                        // play some sound or something idk
                     }
 
                     cv::Point emptyInvSlot = std::move(matchesEmpty.m_Coords.front());
@@ -325,8 +325,7 @@ namespace SextantRoller
                 matchesCompass = CV::getInvItems("compass.png", screenshot, 0.86, true);
                 usedCompass = false;
             }
-        } 
-        // maybe play sound and signal gui to display we are done
+        }  
     }
 
     void Model::addView(View *view) {
