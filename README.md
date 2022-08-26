@@ -4,11 +4,11 @@ Uses opencv to identify game state then simulates input to automate rolling for 
 ![Thumbnail](./thumbnail.jpg)
 
 ## Info
-Simple tool to help with automating sextant rolling for a popular ARPG. It gives the user a GUI with wihch they can configure the modifiers to search for and which voidstone to roll for. Once a desired modifier is found, the tool stores the modifier into a compass for use later. The tool uses opencv to detect game state and win32 api to send simulated inputs. The tool does not read the games memory. The tool currently only works for windows platforms as the simulated inputs and screenshots are done through the windows api.
+Simple tool to help with automating modifier rolling for a popular ARPG. It gives the user a GUI with wihch they can configure the modifiers to search for and which item to roll onto. Once a desired modifier is found, the tool stores the modifier into a compass for use later. The tool uses opencv to detect game state and win32 api to send simulated inputs. The tool does not read the games memory. The tool currently only works for windows platforms as the simulated inputs and screenshots are done through the windows api.
 
 ### Features include
-* Load custom modlist to use when rolling and storing modifiers. Use copy paste on a voidstone with the modifier you want to get exact wording.
-* Select which voidstone gets rolled.
+* Load custom modlist to use when rolling and storing modifiers. Use copy paste on the item with the modifier you want to get exact wording.
+* Select which item gets its modifiers rolled.
 * Automatically handles inventory.
 * Adjust the speed at which the bot simulates inputs. (Experimental)
 
@@ -16,7 +16,7 @@ Simple tool to help with automating sextant rolling for a popular ARPG. It gives
 
 ### Using prebuilt
  1. Download the build from the tag, run the executable. 
- 2. If you have a custom modlist, then load that in using the GUI and select which voidstone you want to roll the modifiers on. 
+ 2. If you have a custom modlist, then load that in using the GUI and select which item you want to roll the modifiers on. 
  3. Once everything is set, Start the roller by pressing Cntrl+R or start on the GUI. Tab into the game and press numpad 0 to start. The bot will roll modifiers until it runs out of resources to roll with. User can manually stop by pressing and holding numpad 1.
 
 ### Building from source
