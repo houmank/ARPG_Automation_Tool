@@ -148,7 +148,9 @@ namespace SextantRoller
 
     void View::OnInstructions(wxCommandEvent& event)
     {
-
+        wxMessageBox("To use the program, simply start by going to File->Start, or Cntrl+R. Then follow on screen instructions.",
+            "Instructions", wxOK | wxICON_INFORMATION);
+        event.Skip();
     }
 
     void View::OnVoidstoneChange(wxCommandEvent& event)
@@ -165,6 +167,7 @@ namespace SextantRoller
             else
                 voidstone->Check(false);
         }
+        event.Skip();
     }
 
     void View::OnStart(wxCommandEvent &event)
