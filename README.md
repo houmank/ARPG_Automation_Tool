@@ -4,7 +4,7 @@ Uses opencv to identify game state then simulates input to automate rolling for 
 ![Thumbnail](./thumbnail.jpg)
 
 ## Info
-Simple tool to help with automating modifier rolling for a popular ARPG. It gives the user a GUI with wihch they can configure the modifiers to search for and which item to roll onto. Once a desired modifier is found, the tool stores the modifier into a compass for use later. The tool uses opencv to detect game state and win32 api to send simulated inputs. The tool does not read the games memory. The tool currently only works for windows platforms as the simulated inputs and screenshots are done through the windows api.
+Simple tool to help with automating modifier rolling for a popular ARPG. It gives the user a GUI with which they can configure the modifiers to search for and which item to roll onto. Once a desired modifier is found, the tool stores the modifier into a compass for use later. The tool uses opencv to detect game state and win32 api to send simulated inputs. The tool does not read the games memory. The tool currently only works for windows platforms as the simulated inputs and screenshots are done through the windows api.
 
 ### Features include
 * Load custom modlist to use when rolling and storing modifiers. Use copy paste on the item with the modifier you want to get exact wording.
@@ -47,7 +47,7 @@ If you do not have visual studio, then you will need to run cmake manually.
 cmake -B./build/ -S. -DCMAKE_INSTALL_PREFIX=./build/bin
 ```
 
-* Note: Building from source takes a considerable amount of time. Also be aware that the locations of the images and default modifier list is relative to my build configuration. If the executable is moved, then the path to the images and defaultModList.txt need to be adjusted in `sextant_roller_constants.h`.
+* Note: Building from source takes a considerable amount of time. Also, be aware that the locations of the images and default modifier list is relative to my build configuration. If the executable is moved, then the path to the images and defaultModList.txt need to be adjusted in `sextant_roller_constants.h`.
 
 ## Disclaimer
-I do not condone breaking terms of service for any games. This is purely for educational purposes and for me to learn about opencv, and automation tools. Use it at your own risk as the developers may flag the executable's signature.
+I do not condone breaking the terms of service for any games. This is purely for educational purposes and for me to learn about opencv, and automation tools. Use it at your own risk as the developers may flag the executable's signature.
